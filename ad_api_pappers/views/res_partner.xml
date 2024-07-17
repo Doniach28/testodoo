@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="res_partner_view_inherit" model="ir.ui.view">
+        <field name="name">res.partner.view.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='category_id']" position="after">
+
+            <button name="button_fetch_pappers_data" string="Récupérer les données de Pappers" type="object" class="oe_highlight"/>
+        </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Pappers" name="pappers">
+                    <group>
+                        <group>
+                            <field name="x_date_creation"/>
+                            <field name="x_forme_juridique"/>
+                            <field name="x_rcs"/>
+                            <field name="x_capital_social"/>
+                            <field name="x_dirigeants"/>
+                            <field name="x_actionnaires"/>
+                        </group>
+                        <group>
+                            <field name="x_comptes_annuels"/>
+                            <field name="x_recup_infos_bilan"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
