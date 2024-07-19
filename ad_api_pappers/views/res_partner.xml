@@ -5,12 +5,12 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+            <!-- Ajout du bouton après le champ 'category_id' -->
+            <xpath expr="//field[@name='category_id']" position="after">
+                <button name="button_fetch_pappers_data" string="Récupérer les données de Pappers" type="object" class="oe_highlight"/>
+            </xpath>
 
-        <xpath expr="//field[@name='category_id']" position="after">
-
-            <button name="button_fetch_pappers_data" string="Récupérer les données de Pappers" type="object" class="oe_highlight"/>
-        </xpath>
-
+            <!-- Ajout d'un onglet 'Pappers' dans le notebook -->
             <xpath expr="//notebook" position="inside">
                 <page string="Pappers" name="pappers">
                     <group>
