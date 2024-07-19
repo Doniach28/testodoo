@@ -4,7 +4,6 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
@@ -28,73 +27,74 @@ class ResPartner(models.Model):
             if not siren:
                 _logger.error("SIREN not found for record ID: %s", record.id)
                 continue
-        url = 'https://api.pappers.fr/v1/entreprise'
 
-        params = {
-            'api_token': api_token,
-            'siren': siren
-        }
+            url = 'https://api.pappers.fr/v1/entreprise'
+            params = {
+                'api_token': api_token,
+                'siren': siren
+            }
 
-        try:
-            # Envoie une requête GET à l'URL avec les paramètres spécifiés
-            response = requests.get(url, params=params)
-            _logger.info(f"URL: {response.url}")
-            # Vérifie si la réponse HTTP indique une erreur et lève une exception si c'est le cas
-            response.raise_for_status()  # Raises error for bad responses
-            # Décode le contenu JSON de la réponse en un dictionnaire Python
-            data = response.json()
+            try:
+                # Envoie une requête GET à l'URL avec les paramètres spécifiés
+                response = requests.get(url, params=params)
+                _logger.info(f"URL: {response.url}")
 
-            if 'nom_entreprise' in data:
-                nom_entreprise = data['nom_entreprise']
-                self.write({'name': nom_entreprise})
-                _logger.info(f"Company name updated to: {nom_entreprise}")
+                # Vérifie si la réponse HTTP indique une erreur et lève une exception si c'est le cas
+                response.raise_for_status()  # Raises error for bad responses
 
-            if 'site_web' in data:
-                site_web = data['site_web']
-                self.write({'website': site_web})
-                _logger.info(f"Website updated to: {site_web}")
+                # Décode le contenu JSON de la réponse en un dictionnaire Python
+                data = response.json()
 
-            if 'date_creation' in data:
-                date_creation = data['date_creation']
-                self.write({'x_date_creation': date_creation})
-                _logger.info(f"Website updated to: {date_creation}")
+                if 'nom_entreprise' in data:
+                    nom_entreprise = data['nom_entreprise']
+                    record.write({'name': nom_entreprise})
+                    _logger.info(f"Company name updated to: {nom_entreprise}")
 
-            if 'forme_juridique' in data:
-                forme_juridique = data['forme_juridique']
-                self.write({'x_forme_juridique': forme_juridique})
-                _logger.info(f"forme juridique  updated to: {forme_juridique}")
+                if 'site_web' in data:
+                    site_web = data['site_web']
+                    record.write({'website': site_web})
+                    _logger.info(f"Website updated to: {site_web}")
 
-            if 'telephone' in data:
-                telephone = data['telephone']
-                self.write({'phone': telephone})
-                _logger.info(f"Phone updated to: {telephone}")
+                if 'date_creation' in data:
+                    date_creation = data['date_creation']
+                    record.write({'x_date_creation': date_creation})
+                    _logger.info(f"Date de création updated to: {date_creation}")
 
-            if 'capital' in data:
-                capital = data['capital']
-                self.write({'x_capital_social': capital})
-                _logger.info(f"capitale sociale  updated to: {capital}")
+                if 'forme_juridique' in data:
+                    forme_juridique = data['forme_juridique']
+                    record.write({'x_forme_juridique': forme_juridique})
+                    _logger.info(f"Forme juridique updated to: {forme_juridique}")
 
-            if 'email' in data:
-                email = data['email']
-                self.write({'email': email})
-                _logger.info(f"the email updated to: {email}")
+                if 'telephone' in data:
+                    telephone = data['telephone']
+                    record.write({'phone': telephone})
+                    _logger.info(f"Phone updated to: {telephone}")
 
-            if 'nom_complet' in data:
-                nom_complet = data['nom_complet']
-                self.write({'x_actionnaires': nom_complet})
-                _logger.info(f"acctionnaires updated to: {nom_complet}")
+                if 'capital' in data:
+                    capital = data['capital']
+                    record.write({'x_capital_social': capital})
+                    _logger.info(f"Capital social updated to: {capital}")
 
-            if 'numero_rcs' in data:
-                numero_rcs = data['numero_rcs']
-                self.write({'x_rcs': numero_rcs})
-                _logger.info(f"Inscription au RCS updated to: {numero_rcs}")
+                if 'email' in data:
+                    email = data['email']
+                    record.write({'email': email})
+                    _logger.info(f"Email updated to: {email}")
 
-            if 'adresse_ligne_1' in data:
-                adresse_ligne_1 = data['adresse_ligne_1']
-                self.write({'street': adresse_ligne_1})
-                _logger.info(f"street updated to: {adresse_ligne_1}")
+                if 'nom_complet' in data:
+                    nom_complet = data['nom_complet']
+                    record.write({'x_actionnaires': nom_complet})
+                    _logger.info(f"Actionnaires updated to: {nom_complet}")
 
+                if 'numero_rcs' in data:
+                    numero_rcs = data['numero_rcs']
+                    record.write({'x_rcs': numero_rcs})
+                    _logger.info(f"Inscription au RCS updated to: {numero_rcs}")
 
-        except requests.exceptions.RequestException as e:
-            # Log the error
-            _logger.error(f"Error fetching data from Pappers API: {e}")
+                if 'adresse_ligne_1' in data:
+                    adresse_ligne_1 = data['adresse_ligne_1']
+                    record.write({'street': adresse_ligne_1})
+                    _logger.info(f"Street updated to: {adresse_ligne_1}")
+
+            except requests.exceptions.RequestException as e:
+                # Log the error
+                _logger.error(f"Error fetching data from Pappers API: {e}")
