@@ -94,11 +94,15 @@ class ResPartner(models.Model):
                 self.write({'street': adresse_ligne_1})
                 _logger.info(f"street updated to: {adresse_ligne_1}")
 
-            if 'dirigeants' in data:
-                dirigeants = data['dirigeants']
-                dirigeants_str = ", ".join([dirigeant['nom_complet'] for dirigeant in dirigeants])
-                self.write({'x_dirigeants': dirigeants_str})
-                _logger.info(f"Dirigeants updated to: {dirigeants_str}")
+            if 'nom_complet' in data:
+                nom_complet = data['nom_complet']
+                self.write({'x_dirigeants': nom_complet})
+                _logger.info(f"Dirigeants   updated to: {nom_complet}")
+
+            if 'prenom' in data:
+                prenom = data['prenom']
+                self.write({'x_actionnaires': prenom})
+                _logger.info(f"Actionnaires updated to: {prenom}")
 
 
 
