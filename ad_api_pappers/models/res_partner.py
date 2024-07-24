@@ -94,10 +94,10 @@ class ResPartner(models.Model):
                 self.write({'street': adresse_ligne_1})
                 _logger.info(f"street updated to: {adresse_ligne_1}")
                 
-            if 'nom_complet' in data:
-                nom_complet = data['nom_complet']
-                self.write({'x_dirigeants': nom_complet})
-                _logger.info(f"Dirigeants   updated to: {nom_complet}")
+            if 'dirigeant_civilite' in data:
+                dirigeant_civilite = data['dirigeant_civilite']
+                self.write({'x_dirigeants': dirigeant_civilite})
+                _logger.info(f"Dirigeants   updated to: {dirigeant_civilite}")
 
 
         except requests.exceptions.RequestException as e:
