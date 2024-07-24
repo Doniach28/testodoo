@@ -101,6 +101,7 @@ class ResPartner(models.Model):
                 _logger.info(f"Dirigeants updated to: {dirigeants_str}")
 
 
+
         except requests.exceptions.RequestException as e:
             # Log the error
             _logger.error(f"Error fetching data from Pappers API: {e}")
